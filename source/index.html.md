@@ -140,7 +140,7 @@ curl -LX POST 'http://localhost:3000/api/v1/users' \
   }'
 ```
 
-> The above command returns JSON structured like this:
+> The above command returns JSON of the newly created user structured like this:
 
 ```json
 {
@@ -149,7 +149,7 @@ curl -LX POST 'http://localhost:3000/api/v1/users' \
   "last_name": "Simpson",
   "birthdate": "1989-01-01",
   "zip_code": 62629,
-  "referral_code": "V3GAN5",
+  "referral_code": "P4CIFR",
   "links": {
     "self": "http://localhost:3000/api/v1/users/5",
     "referrals": {
