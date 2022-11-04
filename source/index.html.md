@@ -1,15 +1,8 @@
 ---
-title: API Reference
+title: Carton Caps API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
-  - python
-  - javascript
-
-toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
 
 includes:
   - errors
@@ -20,85 +13,27 @@ code_clipboard: true
 
 meta:
   - name: description
-    content: Documentation for the Kittn API
+    content: Documentation for the Carton Caps API
 ---
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Carton Caps API! You can use this API to access Carton Caps user information, including user referrals.
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+Checkout some `shell` (`curl`) examples for interacting with the API in the dark area to the right.
 
-This example API documentation page was created with [Slate](https://github.com/slatedocs/slate). Feel free to edit it and use it as a base for your own API's documentation.
+# Requirements
 
-# Authentication
+In order to use this API, you must be running the Carton Caps API application on your local machine.
+See [here](https://github.com/sephraim/carton_caps_api) for how to do that.
 
-> To authorize, use this code:
 
-```ruby
-require 'kittn'
+# Users
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-```
+## Get All Users
 
 ```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-
-# Kittens
-
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
-
-```shell
-curl "http://example.com/api/kittens" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+curl -LX GET 'http://localhost:3000/api/v1/users'
 ```
 
 > The above command returns JSON structured like this:
@@ -107,139 +42,339 @@ let kittens = api.kittens.get();
 [
   {
     "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
+    "first_name": "Lisa",
+    "last_name": "Simpson",
+    "birthdate": "1981-05-09",
+    "zip_code": 62629,
+    "referral_code": "V3GAN5",
+    "links": {
+      "self": "http://localhost:3000/api/v1/users/1",
+      "referrals": {
+          "referred_by": "http://localhost:3000/api/v1/users/1/referrer",
+          "referees": "http://localhost:3000/api/v1/users/1/referees"
+      }
+    }
   },
   {
     "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
+    "first_name": "Marge",
+    "last_name": "Simpson",
+    "birthdate": "1956-10-01",
+    "zip_code": 62629,
+    "referral_code": "BLU3RR",
+    "links": {
+      "self": "http://localhost:3000/api/v1/users/2",
+      "referrals": {
+          "referred_by": "http://localhost:3000/api/v1/users/2/referrer",
+          "referees": "http://localhost:3000/api/v1/users/2/referees"
+      }
+    }
   }
 ]
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all users.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://localhost:3000/api/v1/users`
+
+## Get A Specific User
+
+```shell
+curl -LX GET 'http://localhost:3000/api/v1/users/1'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 1,
+  "first_name": "Lisa",
+  "last_name": "Simpson",
+  "birthdate": "1981-05-09",
+  "zip_code": 62629,
+  "referral_code": "V3GAN5",
+  "links": {
+    "self": "http://localhost:3000/api/v1/users/1",
+    "referrals": {
+        "referred_by": "http://localhost:3000/api/v1/users/1/referrer",
+        "referees": "http://localhost:3000/api/v1/users/1/referees"
+    }
+  }
+}
+```
+
+This endpoint retrieves a specific user.
+
+### HTTP Request
+
+`GET http://localhost:3000/api/v1/users/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | User ID
+
+## Create A New User
+
+```shell
+curl -LX POST 'http://localhost:3000/api/v1/users' \
+-H 'Content-Type: application/json' \
+--data-raw '
+  {
+    "first_name": "Maggie",
+    "last_name": "Simpson",
+    "birthdate": "1989-01-01",
+    "zip_code": 62629,
+    "referral_code_used": "V3GAN5"
+  }'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 5,
+  "first_name": "Maggie",
+  "last_name": "Simpson",
+  "birthdate": "1989-01-01",
+  "zip_code": 62629,
+  "referral_code": "V3GAN5",
+  "links": {
+    "self": "http://localhost:3000/api/v1/users/5",
+    "referrals": {
+      "referred_by": "http://localhost:3000/api/v1/users/5/referrer",
+      "referees": "http://localhost:3000/api/v1/users/5/referees"
+    }
+  }
+}
+```
+
+This endpoint creates a new user. If a valid referral code is passed in then a new referral record will be created as well.
+
+### HTTP Request
+
+`POST http://localhost:3000/api/v1/users`
+
+### Request Body
+
+Parameter | Required?   | Type | Description
+--------- | ----------- | ----------- | -----------
+first_name    | Yes | string | First name
+last_name     | Yes | string | Last name
+birthdate     | Yes | string | Date of birth, e.g. "1989-01-01"
+zip_code      | Yes | number | Zip code, e.g. 62629
+referral_code | No  | string | Existing user's referral code, e.g. "V3GAN5"
+
+## Delete a Specific User
+
+```shell
+curl -LX DELETE 'http://localhost:3000/api/v1/users/4' --data-raw ''
+```
+
+> The above command will return HTTP Status Code 204 (No Content) on successful deletion.
+
+
+This endpoint deletes a specific user.
+
+### HTTP Request
+
+`DELETE http://localhost:3000/api/v1/users/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | User ID
+
+# Referrals
+
+## Get All Referrals
+
+```shell
+curl -LX GET 'http://localhost:3000/api/v1/referrals'
+```
+
+> The above command returns JSON structured like this:
+
+```json
+[
+  {
+    "completed_at": "2022-11-04T05:19:34.330Z",
+    "referrer": {
+      "id": 2,
+      "first_name": "Marge",
+      "last_name": "Simpson",
+      "birthdate": "1956-10-01",
+      "zip_code": 62629,
+      "referral_code": "BLU3RR",
+      "links": {
+        "self": "http://localhost:3000/api/v1/users/2",
+        "referrals": {
+          "referred_by": "http://localhost:3000/api/v1/users/2/referrer",
+          "referees": "http://localhost:3000/api/v1/users/2/referees"
+        }
+      }
+    },
+    "referee": {
+      "id": 4,
+      "first_name": "Homer",
+      "last_name": "Simpson",
+      "birthdate": "1956-05-12",
+      "zip_code": 62629,
+      "referral_code": "DFB33R",
+      "links": {
+        "self": "http://localhost:3000/api/v1/users/4",
+        "referrals": {
+          "referred_by": "http://localhost:3000/api/v1/users/4/referrer",
+          "referees": "http://localhost:3000/api/v1/users/4/referees"
+        }
+      }
+    }
+  }
+]
+```
+
+This endpoint retrieves all referrals by all users unless filtering using the query parameters below.
+
+### HTTP Request
+
+`GET http://localhost:3000/api/v1/referrals`
 
 ### Query Parameters
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+Parameter  | Description
+---------- | ------------
+referrer_id | Filter referrals by a specific user ID where they are the referrer
+referee_id  | Filter referrals by a specific user ID where they are the referee
 
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
+## Get A Specific User's Referees
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+curl -LX GET 'http://localhost:3000/api/v1/users/2/referees'
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
+  "referrer": {
+    "id": 2,
+    "first_name": "Marge",
+    "last_name": "Simpson",
+    "birthdate": "1956-10-01",
+    "zip_code": 62629,
+    "referral_code": "BLU3RR",
+    "links": {
+      "self": "http://localhost:3000/api/v1/users/2",
+      "referrals": {
+        "referred_by": "http://localhost:3000/api/v1/users/2/referrer",
+        "referees": "http://localhost:3000/api/v1/users/2/referees"
+      }
+    }
+  },
+  "referees": [
+    {
+      "id": 4,
+      "first_name": "Homer",
+      "last_name": "Simpson",
+      "birthdate": "1956-05-12",
+      "zip_code": 62629,
+      "referral_code": "DFB33R",
+      "links": {
+        "self": "http://localhost:3000/api/v1/users/4",
+        "referrals": {
+          "referred_by": "http://localhost:3000/api/v1/users/4/referrer",
+          "referees": "http://localhost:3000/api/v1/users/4/referees"
+        }
+      }
+    }
+  ]
 }
 ```
 
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+This endpoint retrieves a specific user's completed referrals (referees).
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET http://localhost:3000/api/v1/users/<ID>/referees`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+ID | User ID
 
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
+## Get A Specific User's Referrer
 
 ```shell
-curl "http://example.com/api/kittens/2" \
-  -X DELETE \
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+curl -LX GET 'http://localhost:3000/api/v1/users/2/referrer'
 ```
 
 > The above command returns JSON structured like this:
 
 ```json
 {
-  "id": 2,
-  "deleted" : ":("
+  "referrer": {
+  "id": 1,
+  "first_name": "Lisa",
+  "last_name": "Simpson",
+  "birthdate": "1981-05-09",
+  "zip_code": 62629,
+  "referral_code": "V3GAN5",
+  "links": {
+    "self": "http://localhost:3000/api/v1/users/1",
+    "referrals": {
+      "referred_by": "http://localhost:3000/api/v1/users/1/referrer",
+      "referees": "http://localhost:3000/api/v1/users/1/referees"
+    }
+  }
+  },
+  "referees": [
+    {
+      "id": 2,
+      "first_name": "Marge",
+      "last_name": "Simpson",
+      "birthdate": "1956-10-01",
+      "zip_code": 62629,
+      "referral_code": "BLU3RR",
+      "links": {
+        "self": "http://localhost:3000/api/v1/users/2",
+        "referrals": {
+          "referred_by": "http://localhost:3000/api/v1/users/2/referrer",
+          "referees": "http://localhost:3000/api/v1/users/2/referees"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "first_name": "Bart",
+      "last_name": "Simpson",
+      "birthdate": "1979-02-23",
+      "zip_code": 62629,
+      "referral_code": "G3TBNT",
+      "links": {
+        "self": "http://localhost:3000/api/v1/users/3",
+        "referrals": {
+          "referred_by": "http://localhost:3000/api/v1/users/3/referrer",
+          "referees": "http://localhost:3000/api/v1/users/3/referees"
+        }
+      }
+    }
+  ]
 }
 ```
 
-This endpoint deletes a specific kitten.
+This endpoint retrieves a specific user's referrer as well as all of the referrer's completed referrals (referees).
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
+`GET http://localhost:3000/api/v1/users/<ID>/referrer`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to delete
-
+ID | User ID
