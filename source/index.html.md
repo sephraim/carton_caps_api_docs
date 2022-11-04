@@ -16,11 +16,19 @@ meta:
     content: Documentation for the Carton Caps API
 ---
 
-# Introduction
+# Carton Caps API Reference
 
-Welcome to the Carton Caps API! You can use this API to access Carton Caps user information, including user referrals.
+Welcome to the official Carton Caps API reference page! You can use the Carton Caps API to access Carton Caps user information including referral records.
 
-Checkout some `shell` (`curl`) examples for interacting with the API in the dark area to the right.
+# Documention
+
+For information regarding API endpoints and example requests/responses, you're in the right spot.
+Scroll down to see which endpoints are available, and be sure to checkout the `curl` examples on the right-hand side as well.
+
+For additional documention, please see the following:
+
+- [Project repository](https://github.com/sephraim/carton_caps_api) - Get up and running locally with the Carton Caps API
+- [API design documentation](design-docs.pdf) - Discover how the Carton Caps mobile app interacts with the API
 
 # Requirements
 
