@@ -255,8 +255,8 @@ This endpoint retrieves all referrals by all users unless filtering using the qu
 
 Parameter  | Description
 ---------- | ------------
-referrer_id | Filter referrals by a specific user ID where they are the referrer
-referee_id  | Filter referrals by a specific user ID where they are the referee
+referrer_id | Filter referrals by a specific referrer's user ID
+referee_id  | Filter referrals by a specific referee's user ID
 
 ## Get A Specific User's Referees
 
