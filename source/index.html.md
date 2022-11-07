@@ -185,7 +185,7 @@ curl -LX DELETE 'http://localhost:3000/api/v1/users/4' --data-raw ''
 > The above command will return HTTP Status Code 204 (No Content) on successful deletion.
 
 
-This endpoint deletes a specific user.
+This endpoint deletes a specific user. If the user has any referrals associated with them then those will be deleted as well.
 
 ### HTTP Request
 
