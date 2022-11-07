@@ -174,7 +174,7 @@ first_name    | Yes | string | First name
 last_name     | Yes | string | Last name
 birthdate     | Yes | string | Date of birth, e.g. "1989-01-01"
 zip_code      | Yes | number | Zip code, e.g. 62629
-referral_code | No  | string | Existing user's referral code, e.g. "V3GAN5"
+referral_code_used | No  | string | Existing user's referral code, e.g. "V3GAN5"
 
 ## Delete a Specific User
 
